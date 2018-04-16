@@ -141,3 +141,4 @@ SELECT "loss" FROM "network" WHERE ("Host_IP" = '60.XX.XX.XX' AND "Target" = '11
 ### 8、也许方案没有达到预期，如果能提供个思路也很好
 如果感觉有帮助谢谢打赏，多少无关。
 ![img](https://github.com/kevin6386/auto_ping/blob/master/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180416153537.png)
+
