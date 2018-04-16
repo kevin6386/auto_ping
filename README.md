@@ -1,5 +1,5 @@
 # auto_ping
-基于MySQL 、InfluxDB、Grafana 互联网多机房互ping，简单，高效、分布式ping
+基于**MySQ**L 、**InfluxDB**、**Grafana** 互联网多机房互ping，简单，高效、分布式ping
 
 ## 背景：
   1、多个机房需要了解网络丢包及延迟状态，开始采用SmokePing但是每次部署非常麻烦，需要编写模板，当机房达到非常多的时候，采用此方法非常不方便，为此为了能
@@ -17,7 +17,11 @@
     2、client 通过api获取ip列表<br>
     3、调用本地Fping 探测ip列表获取结果信息<br>
     4、通过api上传数据<br>
+
+
 ## 方案：
+**采用下面方案是因为流行度，大家多采用InfluxDB+Grafana方式进行运维监控为此没有做单独UI二次开发，减少工作量**
+
   1、采用Grafana展示因为使用者多无需二次开发
   2、InfluxDB时序数据库，可进行多维度绘制数据，基于现有使用者
   3、MySQL存储监控ip简单
@@ -113,4 +117,23 @@ $mysqli->close();
   此处略可参考官网即可。https://www.influxdata.com/
 
 ### 4、客户端
-  
+可做成定时任务，每5分钟执行
+```
+*/5 * * * * /root/shell/traceIP.sh dx
+*/5 * * * * /root/shell/traceIP.sh lt
+*/5 * * * * /root/shell/traceIP.sh yd
+```
+### 5、部署Grafana 
+
+略，并配置InfluxDB 数据源 可参考官网
+
+### 6、配置Grafana
+从InfluxDB 数据库中获取相关信息SQL。
+```MySQL
+SELECT "loss" FROM "network" WHERE ("Host_IP" = '60.XX.XX.XX' AND "Target" = '119.XX.XX.XX') AND $timeFilter GROUP BY "Host_IP", "city", "Target"
+```
+
+![网络展示](https://github.com/kevin6386/auto_ping/blob/master/%E7%BD%91%E7%BB%9C%E5%B1%95%E7%A4%BA.png)
+
+### 7、效果展示
+![效果展示](https://github.com/kevin6386/auto_ping/blob/master/%E5%B1%95%E7%A4%BA2.png)
